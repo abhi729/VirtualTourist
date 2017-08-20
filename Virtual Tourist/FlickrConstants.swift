@@ -28,7 +28,7 @@ extension FlickrClient {
     struct UIConstants {
         static let maxPhotoCount = 21
         static let maxPageCount = 15
-        static let maxItemsPerPage = 16
+        static let maxItemsPerPage = 100
     }
     
     struct Methods {

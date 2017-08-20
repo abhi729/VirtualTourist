@@ -70,8 +70,8 @@
 			isa = PBXGroup;
 			children = (
 				464DC8471F113EEF00776A02 /* Pin+CoreDataProperties.swift */,
-				464DC8491F113EEF00776A02 /* Photo+CoreDataProperties.swift */,
 				4635640F1F0928BB00E1ADAB /* Pin+CoreDataClass.swift */,
+				464DC8491F113EEF00776A02 /* Photo+CoreDataProperties.swift */,
 				463564111F0928BB00E1ADAB /* Photo+CoreDataClass.swift */,
 				463B78DC1EED8B43000D6314 /* Virtual Tourist */,
 				463B78DB1EED8B43000D6314 /* Products */,

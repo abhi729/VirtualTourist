@@ -10,6 +10,15 @@ import UIKit
 import MapKit
 import CoreData
 
+extension UIViewController {
+    func alertUI(withTitle title:String, message:String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+}
+
 class PhotoViewController: UIViewController {
     
     @IBOutlet weak var photoCollectionView: UICollectionView!
@@ -36,7 +45,6 @@ class PhotoViewController: UIViewController {
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: delegate.stack.context, sectionNameKeyPath: nil, cacheName: nil)
         
         return fetchedResultsController
-        
     }()
     
     func removePhotosFromPin(_ indexPath:IndexPath) {
@@ -134,12 +142,7 @@ class PhotoViewController: UIViewController {
         
     }
     
-    func alertUI(withTitle title:String, message:String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
+    
     
     func getPhotos() {
         FlickrClient.sharedInstance().getPhotosByLocation(forPin: pin!) { (result, error) in
@@ -161,14 +164,15 @@ class PhotoViewController: UIViewController {
                         let delegate = UIApplication.shared.delegate as! AppDelegate
                         DispatchQueue.main.async {
                             for urlString in self.photoUrls!.keys {
-                                if let fileName = urlString.components(separatedBy: "/").last, let date = self.photoUrls![urlString] as NSDate? {
+                                if let date = self.photoUrls![urlString] as NSDate? {
                                     let photo = Photo(context: delegate.stack.context)
                                     photo.imageUrl = urlString
                                     photo.date = date
                                     photo.pin = self.pin!
-                                    photo.imageLocation = fileName
+                                    photo.image = nil
                                 }
                             }
+                            delegate.stack.save()
                             
                             self.photoCollectionView.isHidden = false
                             self.newCollectionButton.isEnabled = true

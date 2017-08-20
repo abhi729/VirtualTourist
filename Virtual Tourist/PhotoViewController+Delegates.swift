@@ -41,29 +41,31 @@ extension PhotoViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionCell
         
         let photo = fetchedResultsController.object(at: indexPath) as! Photo
-        let imageLocation = photo.imageLocation!
         
-        if let url = URL(string: Photo.Keys.filePath)?.appendingPathComponent(imageLocation) {
-            print(url.path)
-            if FileManager.default.fileExists(atPath: url.path) {
-                cell.photoCellImageView.image = UIImage(contentsOfFile: url.path)
-                cell.loadingView.isHidden = true
-            } else {
-                let imageUrlString = photo.imageUrl!
-                if let imageUrl = URL(string: imageUrlString) {
-                    DispatchQueue.global(qos: .userInteractive).async {
-                        if let imageData = try? Data(contentsOf: imageUrl) {
-                            try? imageData.write(to: url, options: .atomic)
-                            DispatchQueue.main.async {
-                                cell.photoCellImageView.image = UIImage(data: imageData)
-                                cell.loadingView.isHidden = true
-                            }
-                        }
+        if photo.image != nil {
+            cell.loadingView.isHidden = true
+            cell.photoCellImageView.image = UIImage(data: photo.image! as Data)
+        } else {
+            cell.photoCellImageView.image = nil
+            cell.loadingView.isHidden = false
+            DispatchQueue.global(qos: DispatchQoS.background.qosClass).async {
+                do {
+                    let data = try Data(contentsOf: URL(string: photo.imageUrl!)!)
+                    let image = UIImage(data: data)
+                    DispatchQueue.main.async {
+                        cell.loadingView.isHidden = true
+                        cell.photoCellImageView.image = image
+                        photo.image = NSData(data: data)
+                        let delegate = UIApplication.shared.delegate as! AppDelegate
+                        delegate.stack.save()
+                        return
                     }
+                }
+                catch {
+                    return
                 }
             }
         }
-        
         return configure(cell, forRowAtIndexPath: indexPath)
     }
     

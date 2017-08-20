@@ -26,9 +26,9 @@ public class Photo: NSManagedObject {
         
         super.init(entity: photoEntity, insertInto: context)
         
-        imageLocation = dictionary[Keys.imageLocation] as? String
         date = dictionary[Keys.dateTaken] as? NSDate
         imageUrl = dictionary[Keys.imageURL] as? String
+        
     }
     
     override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
