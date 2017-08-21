@@ -29,9 +29,8 @@ extension FlickrClient {
             }
             
             if let pageCount = page {
-                let pageLimit = min(pageCount, UIConstants.maxItemsPerPage)
-                let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
-                parameters["page"] = min(randomPage, UIConstants.maxPageCount) as AnyObject
+                let randomPage = Int(arc4random_uniform(UInt32(pageCount))) + 1
+                parameters["page"] = randomPage as AnyObject
                 
                 let request = NSMutableURLRequest(url: self.url(fromParameters: parameters))
                 

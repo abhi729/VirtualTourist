@@ -2,7 +2,7 @@
 //  Photo+CoreDataProperties.swift
 //  Virtual Tourist
 //
-//  Created by Abhishek Agarwal on 20/08/17.
+//  Created by Abhishek Agarwal on 21/08/17.
 //  Copyright © 2017 Abhishek. All rights reserved.
 //
 
@@ -17,8 +17,8 @@ extension Photo {
     }
 
     @NSManaged public var date: NSDate?
-    @NSManaged public var imageUrl: String?
     @NSManaged public var image: NSData?
+    @NSManaged public var imageUrl: String?
     @NSManaged public var pin: Pin?
 
 }

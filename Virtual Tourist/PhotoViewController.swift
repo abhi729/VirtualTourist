@@ -154,7 +154,7 @@ class PhotoViewController: UIViewController {
                 if let photosDict = photos["photos"] as? [String: AnyObject], let photosDesc = photosDict["photo"] as? [[String: AnyObject]] {
                     self.photoUrls = [:]
                     let df = DateFormatter()
-                    df.dateFormat = "yyyy-MM-dd hh:mm:ss"
+                    df.dateFormat = "yyyy-MM-dd HH:mm:ss"
                     for (_, photo) in photosDesc.enumerated() {
                         if let urlString = photo["url_m"] as? String, let dateTaken = photo["datetaken"] as? String {
                             self.photoUrls?[urlString] = df.date(from: dateTaken)
