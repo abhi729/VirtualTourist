@@ -111,6 +111,8 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        FlickrClient.sharedInstance().pageNumber = 1
+        
         mapView.isUserInteractionEnabled = false
         photoCollectionView.backgroundColor = UIColor.white
         photoCollectionView.allowsMultipleSelection = true
@@ -183,6 +185,12 @@ class PhotoViewController: UIViewController {
                             self.newCollectionButton.isEnabled = true
                             self.noPhotosLabel.isHidden = false
                         }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.photoCollectionView.isHidden = true
+                        self.noPhotosLabel.text = "No more images!"
+                        self.noPhotosLabel.isHidden = false
                     }
                 }
             }

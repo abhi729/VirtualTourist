@@ -28,9 +28,10 @@ extension FlickrClient {
                 return
             }
             
-            if let pageCount = page {
-                let randomPage = Int(arc4random_uniform(UInt32(pageCount))) + 1
-                parameters["page"] = randomPage as AnyObject
+            if let pageCount = page, self.pageNumber < pageCount {
+                parameters["page"] = self.pageNumber as AnyObject
+                self.pageNumber += 1
+                print(self.pageNumber)
                 
                 let request = NSMutableURLRequest(url: self.url(fromParameters: parameters))
                 
@@ -42,6 +43,9 @@ extension FlickrClient {
                     }
                 }
                 task.resume()
+            } else {
+                let dict = [:] as AnyObject
+                handler(dict, nil)
             }
         }
     }

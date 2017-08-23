@@ -10,6 +10,8 @@ import Foundation
 
 class FlickrClient: NSObject {
     
+    var pageNumber = 1
+    
     override init() {
         super.init()
     }
